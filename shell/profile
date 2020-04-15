@@ -1,2 +1,4 @@
 source ~/.exports
 source ~/.functions
+
+source ~/.custom-scripts

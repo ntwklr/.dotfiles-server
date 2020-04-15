@@ -3,7 +3,7 @@
 # bootstrap installs things.
 
 function bootstrapTerminal() {	
-	source ~/.dotfiles-server/installscript
+	source ~/.dotfiles-server/installscript $1
 }
 
 
