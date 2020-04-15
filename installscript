@@ -1,42 +1,42 @@
 #!/bin/bash
 
 # Change dir to HOME
-cd $HOME
+cd ~
 
 # Symlink bash prefs
-rm $HOME/.bash_profile
-ln -s $HOME/.dotfiles-server/shell/bash/bash_profile $HOME/.bash_profile
+rm ~/.bash_profile
+ln -s ~/.dotfiles-server/shell/bash/bash_profile ~/.bash_profile
 
-rm $HOME/.bashrc
-ln -s $HOME/.dotfiles-server/shell/bash/bashrc $HOME/.bashrc
+rm ~/.bashrc
+ln -s ~/.dotfiles-server/shell/bash/bashrc ~/.bashrc
 
-rm $HOME/.bash_aliases
-ln -s $HOME/.dotfiles-server/shell/bash/bash_aliases $HOME/.bash_aliases
+rm ~/.bash_aliases
+ln -s ~/.dotfiles-server/shell/bash/bash_aliases ~/.bash_aliases
 
 # Symlink common shell prefs
-rm $HOME/.profile
-ln -s $HOME/.dotfiles-server/shell/bash/profile $HOME/.profile
+rm ~/.profile
+ln -s ~/.dotfiles-server/shell/bash/profile ~/.profile
 
-rm $HOME/.aliases
-ln -s $HOME/.dotfiles-server/shell/aliases $HOME/.aliases
+rm ~/.aliases
+ln -s ~/.dotfiles-server/shell/aliases ~/.aliases
 
-rm $HOME/.exports
-ln -s $HOME/.dotfiles-server/shell/exports $HOME/.exports
+rm ~/.exports
+ln -s ~/.dotfiles-server/shell/exports ~/.exports
 
-rm $HOME/.functions
-ln -s $HOME/.dotfiles-server/shell/functions $HOME/.functions
+rm ~/.functions
+ln -s ~/.dotfiles-server/shell/functions ~/.functions
 
 # Symlink bin
-rm -rf $HOME/bin
-ln -s $HOME/.dotfiles-server/bin $HOME/bin
-chmod +x $HOME/bin/*
+rm -rf ~/bin
+ln -s ~/.dotfiles-server/bin ~/bin
+chmod +x ~/bin/*
 
 # Create .custom-scripts
-touch $HOME/.custom-scripts
+touch ~/.custom-scripts
 
 if [ "$1" = "plesk"]; then
-    rm -rf $HOME/.plesk
-    ln -rnfs $HOME/.dotfiles-server/plesk $HOME/.plesk
+    rm -rf ~/.plesk
+    ln -rnfs ~/.dotfiles-server/plesk ~/.plesk
     echo "source ~/.plesk/init" >> "~/.custom-scripts"
 fi
 
