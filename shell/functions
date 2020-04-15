@@ -1,0 +1,10 @@
+  
+# Create a new directory and enter it
+function mkd() {
+   mkdir -p "$@" && cd "$@"
+}
+
+# Run artisan
+function artisan() {
+    php artisan "$@"
+}

@@ -1,0 +1,91 @@
+#!/bin/bash
+
+baseDir="$HOME/httpdocs"
+releasesDir="$baseDir/releases"
+persistentDir="$baseDir/persistent"
+currentDir="$baseDir/current"
+newReleaseName=`date '+%Y%m%d-%H%M%S'`
+newReleaseDir="$releasesDir/$newReleaseName"
+
+repository=${1}
+branch=${2:-"master"}
+
+echo "Starting deployment..."
+
+echo "Cloning repository..."
+[ -d $releasesDir ] || mkdir $releasesDir;
+[ -d $persistentDir ] || mkdir $persistentDir;
+[ -d $persistentDir/storage ] || mkdir $persistentDir/storage;
+[ -d $persistentDir/initialize ] || mkdir $persistentDir/initialize;
+cd $releasesDir;
+
+# Create the release dir
+mkdir $newReleaseDir;
+
+# Clone the repo
+git clone --depth 1 --branch $branch $repository $newReleaseName
+
+# Configure sparse checkout
+cd $newReleaseDir
+git config core.sparsecheckout true
+echo "*" > .git/info/sparse-checkout
+echo "!storage" >> .git/info/sparse-checkout
+git read-tree -mu HEAD
+
+if [ -f $newReleaseDir/composer.json ]; then
+    # Mark release
+    cd $newReleaseDir
+    echo "$newReleaseName" > public/release-name.txt
+
+    echo "Running Composer..."
+    cd $newReleaseDir
+    composer install --prefer-dist --no-scripts --no-dev -q -o;
+
+    echo "Updating symlinks to persistent data..."
+    # Remove the storage directory and replace with persistent data
+    rm -rf $newReleaseDir/storage;
+    cd $newReleaseDir;
+    ln -rnfs $persistentDir/storage storage;
+
+    # Remove the initialize directory and replace with persistent data
+    rm -rf $newReleaseDir/initialize;
+    cd $newReleaseDir;
+    ln -rnfs $persistentDir/initialize initialize;
+
+    # Create a symbolic link from "public/storage" to "storage/app/public"
+    cd $newReleaseDir;
+    ln -rnfs $persistentDir/storage/app/public public/storage;
+
+    # Import the environment config
+    cd $newReleaseDir;
+    ln -rnfs $baseDir/.env .env;
+
+    echo "Optimizing installation..."
+    cd $newReleaseDir;
+    php artisan clear-compiled;
+
+    echo "Backing up database..."
+    php artisan backup:run
+
+    echo "Migrating database..."
+    php artisan migrate --force;
+
+    echo "Blessing new release..."
+    ln -rnfs $newReleaseDir $currentDir;
+    cd $newReleaseDir
+
+    php artisan config:clear
+    php artisan cache:clear
+    php artisan config:cache
+
+    echo "Cleaning up old releases..."
+    # Delete all but the 5 most recent.
+    cd $releasesDir
+    ls -dt $releasesDir/* | tail -n +6 | xargs -d "\n" rm -rf;
+
+    if [[ $(date +%u) -eq 5 ]]; then
+        deploy-friday
+    fi
+else
+    echo "sparse checkout not successful"
+fi

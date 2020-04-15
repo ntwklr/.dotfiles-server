@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Change dir to HOME
+cd $HOME
+
+# Symlink bash prefs
+rm $HOME/.bash_profile
+ln -s $HOME/.dotfiles-server/shell/bash/bash_profile $HOME/.bash_profile
+
+rm $HOME/.bashrc
+ln -s $HOME/.dotfiles-server/shell/bash/bashrc $HOME/.bashrc
+
+rm $HOME/.bash_aliases
+ln -s $HOME/.dotfiles-server/shell/bash/bash_aliases $HOME/.bash_aliases
+
+# Symlink common shell prefs
+rm $HOME/.profile
+ln -s $HOME/.dotfiles-server/shell/bash/profile $HOME/.profile
+
+rm $HOME/.aliases
+ln -s $HOME/.dotfiles-server/shell/aliases $HOME/.aliases
+
+rm $HOME/.exports
+ln -s $HOME/.dotfiles-server/shell/exports $HOME/.exports
+
+rm $HOME/.functions
+ln -s $HOME/.dotfiles-server/shell/functions $HOME/.functions
+
+# Symlink bin
+rm -rf $HOME/bin
+ln -s $HOME/.dotfiles-server/bin $HOME/bin
+chmod +x $HOME/bin/*
+
+# Create .custom-scripts
+touch $HOME/.custom-scripts
+
+if [ "$1" = "plesk"]; then
+    rm -rf $HOME/.plesk
+    ln -rnfs $HOME/.dotfiles-server/plesk $HOME/.plesk
+    echo "source ~/.plesk/init" >> "~/.custom-scripts"
+fi
+
+source ~/.bash_profile
+
+php --version
+
+composer self-update
