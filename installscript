@@ -37,6 +37,7 @@ touch "$HOME/.custom-scripts"
 if [ "$1" = "plesk" ]; then
     rm -rf $HOME/.plesk
     ln -rnfs $HOME/.dotfiles-server/plesk $HOME/.plesk
+    chmod +x $HOME/.plesk/bin/*
     echo "source ~/.plesk/init" >> "$HOME/.custom-scripts"
 fi
 
