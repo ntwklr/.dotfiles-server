@@ -15,7 +15,7 @@ ln -s ~/.dotfiles-server/shell/bash/bash_aliases ~/.bash_aliases
 
 # Symlink common shell prefs
 rm ~/.profile
-ln -s ~/.dotfiles-server/shell/bash/profile ~/.profile
+ln -s ~/.dotfiles-server/shell/profile ~/.profile
 
 rm ~/.aliases
 ln -s ~/.dotfiles-server/shell/aliases ~/.aliases
