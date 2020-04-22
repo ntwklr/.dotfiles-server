@@ -31,15 +31,29 @@ rm -rf $HOME/bin
 ln -rnfs $HOME/.dotfiles-server/bin $HOME/bin
 chmod +x $HOME/bin/*
 
+# Symlink config
+rm -rf $HOME/.config
+ln -rnfs $HOME/.dotfiles-server/config $HOME/.config
+
 # Create .custom-scripts
+rm -rf "$HOME/.custom-scripts"
 touch "$HOME/.custom-scripts"
 
-if [ "$1" = "plesk" ]; then
-    rm -rf $HOME/.plesk
-    ln -rnfs $HOME/.dotfiles-server/plesk $HOME/.plesk
-    chmod +x $HOME/.plesk/bin/*
-    echo "source ~/.plesk/init" >> "$HOME/.custom-scripts"
-fi
+for ARG in "$@"; do
+    if [ "$ARG" = "plesk" ]; then
+        rm -rf $HOME/.plesk
+        ln -rnfs $HOME/.dotfiles-server/plesk $HOME/.plesk
+        chmod +x $HOME/.plesk/bin/*
+        echo "source ~/.plesk/init" >> "$HOME/.custom-scripts"
+    fi
+
+    if [ "$ARG" = "neofetch" ]; then
+        rm -rf $HOME/.neofetch
+        git clone https://github.com/dylanaraps/neofetch.git $HOME/.neofetch
+        chmod +x $HOME/.neofetch/neofetch
+        echo "export PATH=\"\$HOME/.neofetch:\$PATH\"" >> "$HOME/.custom-scripts"
+    fi
+done
 
 source $HOME/.bash_profile
 
