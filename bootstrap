@@ -3,7 +3,7 @@
 # bootstrap installs things.
 
 function bootstrapTerminal() {	
-	source ~/.dotfiles-server/installscript $1
+	source ~/.dotfiles-server/installscript $@
 }
 
 
@@ -14,5 +14,5 @@ read -p 'Answer: '  reply
 
 if [[ $reply =~ ^[Yy]$ ]]
 then
-   bootstrapTerminal $1
+   bootstrapTerminal $@
 fi
