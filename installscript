@@ -52,7 +52,7 @@ for ARG in "$@"; do
         git clone https://github.com/dylanaraps/neofetch.git $HOME/.neofetch
         chmod +x $HOME/.neofetch/neofetch
         echo "export PATH=\"\$HOME/.neofetch:\$PATH\"" >> "$HOME/.conditional-scripts"
-        echo "neofetch" >> "$HOME/.custom-scripts"
+        echo "neofetch" >> "$HOME/.conditional-scripts"
     fi
 done
 
