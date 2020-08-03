@@ -1,7 +1,7 @@
-export PATH=~/.plesk/bin:$PATH;
-
 for file in ~/.plesk/exports/*; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
+
+export PATH=~/.plesk/bin:$PATH;
 
 source ~/.plesk/aliases
