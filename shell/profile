@@ -1,3 +1,5 @@
+source ~/.conditional-scripts
+
 source ~/.exports
 source ~/.functions
 
