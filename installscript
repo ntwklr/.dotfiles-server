@@ -35,26 +35,31 @@ chmod +x $HOME/bin/*
 rm -rf $HOME/.config
 ln -rnfs $HOME/.dotfiles-server/config $HOME/.config
 
-# Create .custom-scripts
-rm -rf "$HOME/.custom-scripts"
-touch "$HOME/.custom-scripts"
+#Create .conditional-scripts
+rm -rf "$HOME/.conditional-scripts"
+touch "$HOME/.conditional-scripts"
 
 for ARG in "$@"; do
     if [ "$ARG" = "plesk" ]; then
         rm -rf $HOME/.plesk
         ln -rnfs $HOME/.dotfiles-server/plesk $HOME/.plesk
         chmod +x $HOME/.plesk/bin/*
-        echo "source ~/.plesk/init" >> "$HOME/.custom-scripts"
+        echo "source ~/.plesk/init" >> "$HOME/.conditional-scripts"
     fi
 
     if [ "$ARG" = "neofetch" ]; then
         rm -rf $HOME/.neofetch
         git clone https://github.com/dylanaraps/neofetch.git $HOME/.neofetch
         chmod +x $HOME/.neofetch/neofetch
-        echo "export PATH=\"\$HOME/.neofetch:\$PATH\"" >> "$HOME/.custom-scripts"
+        echo "export PATH=\"\$HOME/.neofetch:\$PATH\"" >> "$HOME/.conditional-scripts"
         echo "neofetch" >> "$HOME/.custom-scripts"
     fi
 done
+
+# Create .custom-scripts
+if [ ! -f "$HOME/.custom-scripts" ]; then
+    touch "$HOME/.custom-scripts"
+fi
 
 source $HOME/.bash_profile
 
