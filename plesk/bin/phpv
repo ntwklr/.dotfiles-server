@@ -2,7 +2,7 @@
 
 # Switch PHP versions
 rm -f ~/.plesk/exports/php
-echo "export PATH=~/bin:/opt/plesk/php/$1/bin:\$PATH;" > "$HOME/.plesk/exports/php"
+echo "export PATH=/opt/plesk/php/$1/bin:\$PATH;" > "$HOME/.plesk/exports/php"
 source ~/.plesk/exports/php
 php --version
 composer global update
