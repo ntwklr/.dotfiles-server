@@ -84,7 +84,7 @@ if [ -f $newReleaseDir/composer.json ]; then
     echo "Cleaning up old releases..."
     # Delete all but the 5 most recent.
     cd $releasesDir
-    ls -dt $releasesDir/* | tail -n +6 | xargs -d "\n" rm -rf;
+    ls -dt $releasesDir/* | tail -n +4 | xargs -d "\n" rm -rf;
 
     if [[ $(date +%u) -eq 5 ]]; then
         deploy-friday
