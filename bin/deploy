@@ -82,7 +82,7 @@ if [ -f $newReleaseDir/composer.json ]; then
     php artisan config:cache
 
     echo "Cleaning up old releases..."
-    # Delete all but the 5 most recent.
+    # Delete all but the 3 most recent.
     cd $releasesDir
     ls -dt $releasesDir/* | tail -n +4 | xargs -d "\n" rm -rf;
 
