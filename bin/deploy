@@ -66,6 +66,9 @@ if [ -f $newReleaseDir/composer.json ]; then
 
     echo "Backing up database..."
     php artisan backup:run
+    
+    echo "Cleanup old backups..."
+    php artisan backup:clean
 
     echo "Migrating database..."
     php artisan migrate --force;
